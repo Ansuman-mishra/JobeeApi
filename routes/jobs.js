@@ -9,7 +9,7 @@ router.route("/jobs").get(isAuthenticatedUser, getJobs);
 router.route("/jobs/:id/:slug").get(isAuthenticatedUser, getJob);
 router.route("/job/:zipcode/:distance").get(isAuthenticatedUser, getJobsInRadius);
 router.route("/stats/:topic").get(isAuthenticatedUser, jobStats);
-router.route("/job/new").post(isAuthenticatedUser, authorizeRoles("employer", "admin"), newJob);
-router.route("/job/:id").put(isAuthenticatedUser, authorizeRoles("employer", "admin"), updateJob).delete(isAuthenticatedUser, authorizeRoles("employer", "admin"), deleteJob);
+router.route("/job/new").post(isAuthenticatedUser, authorizeRoles("employeer", "admin"), newJob);
+router.route("/job/:id").put(isAuthenticatedUser, authorizeRoles("employeer", "admin"), updateJob).delete(isAuthenticatedUser, authorizeRoles("employeer", "admin"), deleteJob);
 
 module.exports = router;
