@@ -56,7 +56,7 @@ exports.updateUser = catchAsyncErrors(async (req, res, next) => {
 
 // Show all applied jobs   =>   /api/v1/jobs/applied
 exports.getAppliedJobs = catchAsyncErrors(async (req, res, next) => {
-    const jobs = await Job.find({ "applicantsApplied.id": req.user.id }).select("+applicantsApplied");
+    const jobs = await Job.find({ "applicantApplied.id": req.user.id }).select("+applicantApplied");
 
     res.status(200).json({
         success: true,
@@ -132,10 +132,10 @@ async function deleteUserData(user, role) {
     }
 
     if (role === "user") {
-        const appliedJobs = await Job.find({ "applicantsApplied.id": user }).select("+applicantsApplied");
+        const appliedJobs = await Job.find({ "applicantApplied.id": user }).select("+applicantApplied");
 
         for (let i = 0; i < appliedJobs.length; i++) {
-            let obj = appliedJobs[i].applicantsApplied.find((o) => o.id === user);
+            let obj = appliedJobs[i].applicantApplied.find((o) => o.id === user);
 
             let filepath = `${__dirname}/public/uploads/${obj.resume}`.replace("\\controllers", "");
 
@@ -143,7 +143,7 @@ async function deleteUserData(user, role) {
                 if (err) return console.log(err);
             });
 
-            appliedJobs[i].applicantsApplied.splice(appliedJobs[i].applicantsApplied.indexOf(obj.id));
+            appliedJobs[i].applicantApplied.splice(appliedJobs[i].applicantApplied.indexOf(obj.id));
 
             await appliedJobs[i].save();
         }
